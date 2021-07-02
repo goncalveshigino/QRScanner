@@ -1,9 +1,11 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:qrread/src/models/scan-model.dart';
 import 'package:qrread/src/pages/direcciones.dart';
 import 'package:qrread/src/pages/maps.dart'; 
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:qrread/src/providers/db_provider.dart';
 
 class HomePage extends StatefulWidget {
 
@@ -48,9 +50,16 @@ class _HomePageState extends State<HomePage> {
     // MYQRgeo:40.724233047051705,-74.00731459101564
 
 
-    String futureString;
-    // Platform messages may fail, so we use a try/catch PlatformException.
-    try {
+    String futureString = 'https://fernando-herrera.com';
+
+    if( futureString != null ) {
+
+      final scan = ScanModel( valor: futureString );
+      DBProvider.db.novoScan(scan);
+
+    }
+   
+    /*try {
       futureString = await FlutterBarcodeScanner.scanBarcode(
           '#ff6666', 'Cancel', true, ScanMode.QR );
       print("MYQR"+futureString);
@@ -63,6 +72,8 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       _scanBarcode = futureString;
     });
+       */
+
   }
 
 
