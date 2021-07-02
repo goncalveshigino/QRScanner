@@ -5,6 +5,8 @@ import 'package:qrread/src/models/scan-model.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
+export 'package:qrread/src/models/scan-model.dart';
+
 class DBProvider {
 
   static Database _database;
@@ -29,18 +31,21 @@ class DBProvider {
 
     return await openDatabase(path, version: 1, onOpen: (db) {},
         onCreate: (Database db, int version) async {
-      await db.execute('CREATE TABLE Scans ('
+      await db.execute(
+          'CREATE TABLE Scans ('
           'id INTEGER PRIMARY KEY,'
           'tipo TEXT,'
-          'valor TEXT,'
-          ')');
-    });
+          'valor TEXT'
+          ')'
+        );
+      }
+    );
   }
 
   //Criar registros
   novoScanRaw(ScanModel novoScan) async {
-    final db = await database;
 
+    final db = await database;
     final resp = await db.rawInsert("INSERT INTO Scans (id, tipo, valor) "
         "VALUES ( '${ novoScan.id }','${ novoScan.tipo }', '${ novoScan.valor }' )"
     );
@@ -49,7 +54,6 @@ class DBProvider {
   }
 
      //Inserir valores na Base dados
-
     novoScan( ScanModel novoScan ) async {
 
        final db = await database;
