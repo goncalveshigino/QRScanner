@@ -102,7 +102,7 @@ class DBProvider {
    Future<int> updateScan( ScanModel novoScan) async {
 
 
-       final db = await database;
+       final db   = await database;
        final resp = await db.update('Scans', novoScan.toJson(), where: 'id = ?', whereArgs: [ novoScan.id ] );
 
 
@@ -115,13 +115,21 @@ class DBProvider {
    Future<int> deleteScan( int id) async {
         
 
-
-        final db = await database; 
-        
+        final db   = await database; 
         final resp = await db.delete('Scans', where: 'id = ?', whereArgs: [id]);
 
         return resp;
 
+    }
+
+    Future<int> deleteAll() async {
+
+
+        final db   = await database;
+        final resp = await db.rawDelete('DELETE FROM Scans');
+
+
+        return resp;
     }
 
 
