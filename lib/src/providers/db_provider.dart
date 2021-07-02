@@ -55,6 +55,59 @@ class DBProvider {
        return resp;
     }
 
-    // SELECT - Obter iformacoes da base de dados
+    // SELECT - Obter iformacoes da base de dados 
+   Future<ScanModel> getScanId( int id ) async {
+
+
+     final db = await database;
+
+     final resp = await db.query('Scans', where: 'id = ?', whereArgs: [id] );
+
+      return resp.isNotEmpty ? ScanModel.fromJson( resp.first) : null;
+
+    }
+
+
+    //Pegar todos os Scan da db 
+    Future<List<ScanModel>> getTodosScans() async {
+      
+      final db   = await database;
+      final resp = await db.query('Scans'); 
+
+      List<ScanModel> list = resp.isNotEmpty 
+                               ? resp.map( (c) => ScanModel.fromJson(c)).toList()
+                               : [];
+
+      return list;                     
+    } 
+
+     //Pegar registro por tipo
+     Future<List<ScanModel>> getScansTipo( String tipo) async {
+      
+      final db   = await database;
+      final resp = await db.rawQuery("SELECT * FROM Scans WHERE tipo='$tipo'"); 
+
+      List<ScanModel> list = resp.isNotEmpty 
+                               ? resp.map( (c) => ScanModel.fromJson(c)).toList()
+                               : [];
+
+      return list;                     
+    } 
+
+
+    //Atualizar Registros
+   Future<int> updateScan( ScanModel novoScan) async {
+
+
+       final db = await database;
+       final resp = await db.update('Scans', novoScan.toJson(), where: 'id = ?', whereArgs: [ novoScan.id ] );
+
+
+       return resp;
+
+    }
+
+
+
 
 }
