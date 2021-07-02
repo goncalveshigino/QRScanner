@@ -6,11 +6,13 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
 class DBProvider {
+
   static Database _database;
   static final DBProvider db = DBProvider._();
 
   DBProvider._();
-
+ 
+ //Buscar na base de dados
   Future<Database> get database async {
     if (_database != null) return _database;
 
@@ -20,6 +22,7 @@ class DBProvider {
   }
 
   initDB() async {
+
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
 
     final path = join(documentsDirectory.path, 'ScansDB.db');
@@ -99,12 +102,34 @@ class DBProvider {
    Future<int> updateScan( ScanModel novoScan) async {
 
 
-       final db = await database;
+       final db   = await database;
        final resp = await db.update('Scans', novoScan.toJson(), where: 'id = ?', whereArgs: [ novoScan.id ] );
 
 
        return resp;
 
+    }
+
+
+    //Eliminar registros 
+   Future<int> deleteScan( int id) async {
+        
+
+        final db   = await database; 
+        final resp = await db.delete('Scans', where: 'id = ?', whereArgs: [id]);
+
+        return resp;
+
+    }
+
+    Future<int> deleteAll() async {
+
+
+        final db   = await database;
+        final resp = await db.rawDelete('DELETE FROM Scans');
+
+
+        return resp;
     }
 
 
