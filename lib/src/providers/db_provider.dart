@@ -17,7 +17,8 @@ class DBProvider {
  //Buscar na base de dados
   Future<Database> get database async {
     if (_database != null) return _database;
-
+     
+     //Se for nula a estancia da DB enato criamos uma nova instancia
     _database = await initDB();
 
     return _database;
@@ -42,12 +43,14 @@ class DBProvider {
     );
   }
 
-  //Criar registros
+  //Inserir novos registros
   novoScanRaw(ScanModel novoScan) async {
-
+    
+    //Verificar se podemos escrever na base de dados
     final db = await database;
+
     final resp = await db.rawInsert("INSERT INTO Scans (id, tipo, valor) "
-        "VALUES ( '${ novoScan.id }','${ novoScan.tipo }', '${ novoScan.valor }' )"
+        "VALUES ( ${ novoScan.id },'${ novoScan.tipo }', '${ novoScan.valor }' )"
     );
 
     return resp;
@@ -56,8 +59,10 @@ class DBProvider {
      //Inserir valores na Base dados
     novoScan( ScanModel novoScan ) async {
 
+      //Verificar se podemos escrever na base de dados
        final db = await database;
-       final resp = db.insert('Scans', novoScan.toJson() ); 
+
+       final resp = await db.insert('Scans', novoScan.toJson() ); 
 
        return resp;
     }
@@ -65,7 +70,7 @@ class DBProvider {
     // SELECT - Obter iformacoes da base de dados 
    Future<ScanModel> getScanId( int id ) async {
 
-
+     //Verificar se podemos escrever na base de dados
      final db = await database;
 
      final resp = await db.query('Scans', where: 'id = ?', whereArgs: [id] );
@@ -83,7 +88,7 @@ class DBProvider {
 
       List<ScanModel> list = resp.isNotEmpty 
                                ? resp.map( (c) => ScanModel.fromJson(c)).toList()
-                               : [];
+                               : [];    
 
       return list;                     
     } 
@@ -105,7 +110,7 @@ class DBProvider {
     //Atualizar Registros
    Future<int> updateScan( ScanModel novoScan) async {
 
-
+       //Verificar se podemos escrever na base de dados
        final db   = await database;
        final resp = await db.update('Scans', novoScan.toJson(), where: 'id = ?', whereArgs: [ novoScan.id ] );
 
@@ -118,8 +123,9 @@ class DBProvider {
     //Eliminar registros 
    Future<int> deleteScan( int id) async {
         
-
+       //Verificar se podemos escrever na base de dados
         final db   = await database; 
+        
         final resp = await db.delete('Scans', where: 'id = ?', whereArgs: [id]);
 
         return resp;
