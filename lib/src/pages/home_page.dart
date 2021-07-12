@@ -1,17 +1,17 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:qrread/src/bloc/scans_bloc.dart';
 import 'package:qrread/src/models/scan-model.dart';
 import 'package:qrread/src/pages/direcciones.dart';
-import 'package:qrread/src/pages/maps.dart'; 
-import 'package:qrread/src/providers/db_provider.dart';
+import 'package:qrread/src/pages/maps.dart';
 
 class HomePage extends StatefulWidget {
-
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
+  final scansBloc = new ScansBloc();
 
   int currentIndex = 0;
   String _scanBarcode;
@@ -24,10 +24,10 @@ class _HomePageState extends State<HomePage> {
         centerTitle: true,
         actions: [
           IconButton(
-            icon: Icon( 
-              Icons.delete_forever, 
-            ), 
-            onPressed: (){},
+            icon: Icon(
+              Icons.delete_forever,
+            ),
+            onPressed: scansBloc.eliminarTodosScans,
           )
         ],
       ),
@@ -36,27 +36,25 @@ class _HomePageState extends State<HomePage> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.deepPurple,
-        child: Icon( Icons.filter_center_focus, ),
+        child: Icon(
+          Icons.filter_center_focus,
+        ),
         onPressed: _scanQR,
       ),
     );
   }
 
   Future<void> _scanQR() async {
-
     // https://fernando-herrera.com
     // MYQRgeo:40.724233047051705,-74.00731459101564
 
-
     String futureString = 'https://fernando-herrera.com';
 
-    if( futureString != null ) {
-
-      final scan = ScanModel( valor: futureString );
-      DBProvider.db.novoScan(scan);
-
+    if (futureString != null) {
+      final scan = ScanModel(valor: futureString);
+      scansBloc.adicionarSCan(scan);
     }
-   
+
     /*try {
       futureString = await FlutterBarcodeScanner.scanBarcode(
           '#ff6666', 'Cancel', true, ScanMode.QR );
@@ -71,40 +69,38 @@ class _HomePageState extends State<HomePage> {
       _scanBarcode = futureString;
     });
        */
-
   }
 
-
-
-
-Widget _callPage( int paginaAtual ){
-
-  switch( paginaAtual ) {
-
-    case 0: return MapasPage();
-    case 1: return DireccionesPage(); 
-
-    default:
+  Widget _callPage(int paginaAtual) {
+    switch (paginaAtual) {
+      case 0:
         return MapasPage();
+      case 1:
+        return DireccionesPage();
+
+      default:
+        return MapasPage();
+    }
   }
 
-}
-
-
-
-Widget _createBottomNavigationBar() {
+  Widget _createBottomNavigationBar() {
     return CurvedNavigationBar(
-      backgroundColor: Colors.deepPurple,
-      index: currentIndex,
-       onTap: (index){
-         setState(() {
-           currentIndex = index;
-         });
-       },
-       items: [
-        Icon(Icons.map, color: Colors.deepPurple,), 
-        Icon(Icons.brightness_5,  color: Colors.deepPurple,),       
-       ]
-    );
-}
+        backgroundColor: Colors.deepPurple,
+        index: currentIndex,
+        onTap: (index) {
+          setState(() {
+            currentIndex = index;
+          });
+        },
+        items: [
+          Icon(
+            Icons.map,
+            color: Colors.deepPurple,
+          ),
+          Icon(
+            Icons.brightness_5,
+            color: Colors.deepPurple,
+          ),
+        ]);
+  }
 }
