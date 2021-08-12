@@ -28,6 +28,7 @@ class MapasPage extends StatelessWidget {
 
 
           return ListView.builder(
+            physics: BouncingScrollPhysics(),
             itemCount: scans.length,
             itemBuilder: ( context, i) => Dismissible(
               key: UniqueKey(),
@@ -42,8 +43,6 @@ class MapasPage extends StatelessWidget {
               ),
             ),
           );
-
-
 
         }
       );

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:qrread/src/providers/db_provider.dart';
 
 class ScansBloc {
+  
   static final ScansBloc _singleton = new ScansBloc._internal();
 
   factory ScansBloc() {

@@ -5,6 +5,8 @@ import 'package:qrread/src/models/scan-model.dart';
 import 'package:qrread/src/pages/direcciones.dart';
 import 'package:qrread/src/pages/maps.dart';
 
+import 'package:qrread/src/utils/utils.dart' as utils;
+
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
@@ -14,7 +16,7 @@ class _HomePageState extends State<HomePage> {
   final scansBloc = new ScansBloc();
 
   int currentIndex = 0;
-  String _scanBarcode;
+  // String _scanBarcode;
 
   @override
   Widget build(BuildContext context) {
@@ -45,14 +47,20 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> _scanQR() async {
-    // https://fernando-herrera.com
-    // MYQRgeo:40.724233047051705,-74.00731459101564
+
+    // String geo = 'MYQRgeo:40.724233047051705,-74.00731459101564';
 
     String futureString = 'https://fernando-herrera.com';
 
     if (futureString != null) {
+      
       final scan = ScanModel(valor: futureString);
       scansBloc.adicionarSCan(scan);
+
+      // final scan2 = ScanModel(valor: geo);
+      // scansBloc.adicionarSCan(scan2);
+
+      // utils.abrirScan(scan);
     }
 
     /*try {

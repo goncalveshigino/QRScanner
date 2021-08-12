@@ -31,7 +31,8 @@ dependencies:
   curved_navigation_bar: ^0.3.7
   flutter_barcode_scanner: ^1.0.2
   sqflite: ^1.1.5
-  path_provider: ^0.5.0+1
+  path_provider: ^0.5.0+1 
+  url_launcher: 
 
 dev_dependencies:
   flutter_test:
