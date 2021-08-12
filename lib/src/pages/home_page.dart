@@ -51,7 +51,7 @@ class _HomePageState extends State<HomePage> {
 
   Future<void> _scanQR(BuildContext context) async {
 
-    String geo = 'MYQRgeo:40.724233047051705,-74.00731459101564';
+    String geo = 'geo:40.724233047051705,-74.00731459101564';
 
     String futureString = 'https://fernando-herrera.com';
 
