@@ -44,12 +44,12 @@ class _HomePageState extends State<HomePage> {
         child: Icon(
           Icons.filter_center_focus,
         ),
-        onPressed: (){},
+        onPressed: () => _scanQR( context ),
       ),
     );
   }
 
-  Future<void> _scanQR() async {
+  Future<void> _scanQR(BuildContext context) async {
 
     String geo = 'MYQRgeo:40.724233047051705,-74.00731459101564';
 
@@ -67,10 +67,10 @@ class _HomePageState extends State<HomePage> {
       if ( Platform.isIOS ) {
 
         Future.delayed( Duration(milliseconds: 750), () {
-          utils.abrirScan(scan);
+          utils.abrirScan(context, scan);
         });
       } else {
-        utils.abrirScan(scan);
+        utils.abrirScan(context, scan);
       }
   
     }

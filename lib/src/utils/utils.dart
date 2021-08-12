@@ -1,10 +1,11 @@
 
+import 'package:flutter/material.dart';
 import 'package:qrread/src/models/scan-model.dart';
 import 'package:url_launcher/url_launcher.dart'; 
 
 
 
-abrirScan( ScanModel scan ) async {
+abrirScan( BuildContext context, ScanModel scan ) async {
 
   if( scan.tipo == 'http'){
      
@@ -17,7 +18,7 @@ abrirScan( ScanModel scan ) async {
 
   } else {
 
-    print('GEO...');
+    Navigator.pushNamed( context, 'mapa', arguments:  scan );
 
   }
 
