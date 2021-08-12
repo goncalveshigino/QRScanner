@@ -3,6 +3,8 @@ import 'package:qrread/src/bloc/scans_bloc.dart';
 import 'package:qrread/src/models/scan-model.dart';
 import 'package:qrread/src/providers/db_provider.dart';
 
+import 'package:qrread/src/utils/utils.dart' as utils;
+
 class MapasPage extends StatelessWidget {
 
    final scansBloc = new ScansBloc();
@@ -40,6 +42,7 @@ class MapasPage extends StatelessWidget {
                 title: Text( scans[i].valor),
                 subtitle: Text( 'ID: ${ scans[i].id }'),
                 trailing: Icon( Icons.keyboard_arrow_down, color: Colors.grey ),
+                onTap: () => utils.abrirScan( scans[i] ),
               ),
             ),
           );

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:qrread/src/bloc/scans_bloc.dart';
@@ -13,6 +15,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
   final scansBloc = new ScansBloc();
 
   int currentIndex = 0;
@@ -41,14 +44,14 @@ class _HomePageState extends State<HomePage> {
         child: Icon(
           Icons.filter_center_focus,
         ),
-        onPressed: _scanQR,
+        onPressed: (){},
       ),
     );
   }
 
   Future<void> _scanQR() async {
 
-    // String geo = 'MYQRgeo:40.724233047051705,-74.00731459101564';
+    String geo = 'MYQRgeo:40.724233047051705,-74.00731459101564';
 
     String futureString = 'https://fernando-herrera.com';
 
@@ -57,10 +60,19 @@ class _HomePageState extends State<HomePage> {
       final scan = ScanModel(valor: futureString);
       scansBloc.adicionarSCan(scan);
 
-      // final scan2 = ScanModel(valor: geo);
-      // scansBloc.adicionarSCan(scan2);
+      final scan2 = ScanModel(valor: geo);
+      scansBloc.adicionarSCan(scan2);
 
-      // utils.abrirScan(scan);
+
+      if ( Platform.isIOS ) {
+
+        Future.delayed( Duration(milliseconds: 750), () {
+          utils.abrirScan(scan);
+        });
+      } else {
+        utils.abrirScan(scan);
+      }
+  
     }
 
     /*try {
